@@ -37,7 +37,6 @@ long long int makeAbundantNum()
       }
     }
   }
-
   return result;
 }
 
@@ -46,17 +45,6 @@ void printAbundantList()
   for(long long int i = 0 ; i < ANQ ; i++){
     printf("abundantNum[%lld] = %lld\n", i, abundantNum[i]);
   }
-}
-
-long long int calcAbundantNumSum()
-{
-  long long int ans = 0;
-
-  for(long long int i = 0 ; i < 6965 ; i++){
-    ans = ans + (abundantNum[i] * (6965 + 1));
-    printf("%lld:%lld\n", i, ans);
-  }
-  return ans;
 }
 
 int main(void)
@@ -74,15 +62,8 @@ int main(void)
   RNQ = 4;
 
   makeAbundantNum();
-  //printAbundantList();
-  abundantNumSum = calcAbundantNumSum();
-
-  maxAbundantNum = abundantNum[ANQ - 1] * 2;
-  naturalNumSum = (maxAbundantNum * (maxAbundantNum + 1)) / 2;
-
-  printf("maxAbundantNum = %lld\n", maxAbundantNum);
-  printf(" naturalNumSum = %lld\n", naturalNumSum);
-  printf("abundantNumSum = %lld\n", abundantNumSum);
+  printAbundantList();
+  
 
   return 0;
 }
