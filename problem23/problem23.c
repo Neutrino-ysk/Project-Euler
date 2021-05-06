@@ -7,8 +7,9 @@ long long int referenceNum[MAX_NUM];
 long long int abundantNum[MAX_NUM];
 long long int ANQ;
 long long int RNQ;
+long long int ANQ_SUM;
 
-long long int makeAbundantNum()
+void makeAbundantNum()
 {
   long long int result = 0;
   long long int stop = 0;
@@ -37,7 +38,45 @@ long long int makeAbundantNum()
       }
     }
   }
-  return result;
+}
+
+long long int sumAbundantList()
+{
+  int size;
+  size = ((ANQ - 1)/2) * ANQ;
+  long long int sumAbundantNum[1000];
+  printf("Hello");
+  int sum;
+  int included;
+  long long int sumAbundant;
+  
+  included = 0;
+  sumAbundantNum[0] = 0;
+  sumAbundant = 0;
+
+  for(int j = 0 ; j < ANQ ; j++){
+    for(int i = j ; i < ANQ ; i++){
+
+      sum = abundantNum[i] + abundantNum[j];
+
+      for(int h = 0 ; h < ANQ_SUM ; h++){
+        if(sumAbundantNum[h] == sum){
+          included = 1;
+          h = ANQ_SUM;
+        }
+      }
+      if(included == 0){
+        sumAbundantNum[ANQ_SUM] = sum;
+        ANQ_SUM++;
+      }
+    }
+  }
+
+  for(int i = 0 ; i < ANQ_SUM ; i++){
+    printf("sumAbundantNum[%d] = %lld\n", i, sumAbundantNum[i]);
+  }
+
+  return sumAbundant;
 }
 
 void printAbundantList()
@@ -60,9 +99,11 @@ int main(void)
 
   ANQ = 0;
   RNQ = 4;
+  ANQ_SUM = 0;
 
   makeAbundantNum();
-  printAbundantList();
+  //printAbundantList();
+  sumAbundantList();
   
 
   return 0;
