@@ -5,6 +5,7 @@
 
 long long int referenceNum[MAX_NUM];
 long long int abundantNum[MAX_NUM];
+long long int sumAbundantNum[MAX_NUM];
 long long int ANQ;
 long long int RNQ;
 long long int ANQ_SUM;
@@ -40,43 +41,29 @@ void makeAbundantNum()
   }
 }
 
-long long int sumAbundantList()
+int findOutincluded(long long key)
 {
-  int size;
-  size = ((ANQ - 1)/2) * ANQ;
-  long long int sumAbundantNum[1000];
-  printf("Hello");
-  int sum;
-  int included;
-  long long int sumAbundant;
-  
-  included = 0;
-  sumAbundantNum[0] = 0;
-  sumAbundant = 0;
+  for(long long int i = 0 ; i < ANQ_SUM + 1 ; i++){
+    if(sumAbundantNum[i] == key) return 1;
+  }
+  return 0;
+}
 
-  for(int j = 0 ; j < ANQ ; j++){
-    for(int i = j ; i < ANQ ; i++){
+void makeSumAbundantNum()
+{
+  long long int sum = 0;
 
+  for(long long int j = 0 ; j < ANQ ; j++){
+    for(long long int i = j ; i < ANQ ; i++){
       sum = abundantNum[i] + abundantNum[j];
-
-      for(int h = 0 ; h < ANQ_SUM ; h++){
-        if(sumAbundantNum[h] == sum){
-          included = 1;
-          h = ANQ_SUM;
+      if(ANQ_SUM < MAX_NUM){
+        if(findOutincluded(sum) == 0){
+          sumAbundantNum[ANQ_SUM] = sum;
+          ANQ_SUM++;
         }
-      }
-      if(included == 0){
-        sumAbundantNum[ANQ_SUM] = sum;
-        ANQ_SUM++;
       }
     }
   }
-
-  for(int i = 0 ; i < ANQ_SUM ; i++){
-    printf("sumAbundantNum[%d] = %lld\n", i, sumAbundantNum[i]);
-  }
-
-  return sumAbundant;
 }
 
 void printAbundantList()
@@ -86,12 +73,15 @@ void printAbundantList()
   }
 }
 
+void printSumAbundantList()
+{
+  for(long long int i = 0 ; i < ANQ_SUM ; i++){
+    printf("sumAbundantNum[%lld] = %lld\n", i, sumAbundantNum[i]);
+  }
+}
+
 int main(void)
 {
-  long long int naturalNumSum = 0;
-  long long int maxAbundantNum = 0;
-  long long int abundantNumSum = 0;
-
   referenceNum[0] = 6;
   referenceNum[1] = 28;
   referenceNum[2] = 496;
@@ -101,10 +91,12 @@ int main(void)
   RNQ = 4;
   ANQ_SUM = 0;
 
+  sumAbundantNum[0] = 0;
+
   makeAbundantNum();
   //printAbundantList();
-  sumAbundantList();
-  
+  makeSumAbundantNum();
+  printSumAbundantList();
 
   return 0;
 }
