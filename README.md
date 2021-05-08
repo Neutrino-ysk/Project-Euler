@@ -1,2 +1,2 @@
 # Project-euler
-# Project-eulerのバージョン管理
+Project-eulerのバージョン管理
