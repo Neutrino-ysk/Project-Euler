@@ -5,7 +5,10 @@
 
 long long int referenceNum[MAX_NUM];
 long long int abundantNum[MAX_NUM];
-long long int sumAbundantNum[MAX_NUM];
+long long int abundantNumSum[MAX_NUM];
+long long int abundantSum;
+long long int naturalNumSum;
+long long int result;
 long long int ANQ;
 long long int RNQ;
 long long int ANQ_SUM;
@@ -44,25 +47,26 @@ void makeAbundantNum()
 int findOutincluded(long long key)
 {
   for(long long int i = 0 ; i < ANQ_SUM + 1 ; i++){
-    if(sumAbundantNum[i] == key) return 1;
+    if(abundantNumSum[i] == key) return 1;
   }
   return 0;
 }
 
-void makeSumAbundantNum()
+void makeabundantNumSum()
 {
   long long int sum = 0;
 
   for(long long int j = 0 ; j < ANQ ; j++){
     for(long long int i = j ; i < ANQ ; i++){
       sum = abundantNum[i] + abundantNum[j];
-      if(ANQ_SUM < MAX_NUM){
-        if(findOutincluded(sum) == 0){
-          sumAbundantNum[ANQ_SUM] = sum;
-          ANQ_SUM++;
-        }
+      if(sum < MAX_NUM - 1){
+        abundantNumSum[sum] = sum;
       }
     }
+  }
+
+  for(long long int i = 0 ; i < MAX_NUM ; i++){
+    abundantSum = abundantNumSum[i] + abundantSum;
   }
 }
 
@@ -75,9 +79,13 @@ void printAbundantList()
 
 void printSumAbundantList()
 {
-  for(long long int i = 0 ; i < ANQ_SUM ; i++){
-    printf("sumAbundantNum[%lld] = %lld\n", i, sumAbundantNum[i]);
+  for(long long int i = 0 ; i < MAX_NUM ; i++){
+    printf("abundantNumSum[%lld] = %lld\n", i, abundantNumSum[i]);
   }
+}
+
+void makenaturalNumSum(long long int maxNum){
+  naturalNumSum = (maxNum * (maxNum + 1)) / 2;
 }
 
 int main(void)
@@ -89,14 +97,21 @@ int main(void)
 
   ANQ = 0;
   RNQ = 4;
-  ANQ_SUM = 0;
+  ANQ_SUM = 24;
 
-  sumAbundantNum[0] = 0;
+  abundantNumSum[0] = 0;
+  abundantSum = 0;
 
   makeAbundantNum();
   //printAbundantList();
-  makeSumAbundantNum();
-  printSumAbundantList();
+  makeabundantNumSum();
+  //printSumAbundantList();
+  makenaturalNumSum(MAX_NUM - 2);
+  printf("nuturalNumSum = %lld", naturalNumSum);
+  result = naturalNumSum - abundantSum;
+  printf("naturalNumSum : %lld\n", naturalNumSum);
+  printf("abundantSum : %lld\n", abundantSum);
+  printf("result = %lld", result);
 
   return 0;
 }
