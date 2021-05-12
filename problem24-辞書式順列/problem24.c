@@ -39,7 +39,7 @@ int main(void)
             }
         }
         orderNum = orderNum - makeFactorial(MAXNUM - dNum);
-        digitCount = digitCount - 1;
+        digitCount = digitCount;
 
         while(num[digitCount] == -1){
             digitCount--;
