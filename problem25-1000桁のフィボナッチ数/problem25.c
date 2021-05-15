@@ -1,51 +1,60 @@
 #include <stdio.h>
-#define VISIBLE_LENGTH 5
-#define MAX_DIGITNUM 10
+#define VISIBLE_DIGIT_NUM 1001
+#define MAX_DIGIT 1000
 
-int f1[MAX_DIGITNUM];
-int f2[MAX_DIGITNUM];
-int result[MAX_DIGITNUM];
+int nowFib[VISIBLE_DIGIT_NUM];
+int preFib[VISIBLE_DIGIT_NUM];
 int upNum = 0;
+int termNum = 2;
 
 void addFibonacci()
 {
     int sumFibonacci;
 
-    for(int digit = 0 ; digit < MAX_DIGITNUM ; digit++){
-        f1[digit] = f1[digit] + upNum;
-        upNum = 0;
-        if(f1[digit] != 0 || f2[digit] != 0){
-            sumFibonacci = f1[digit] + f2[digit];
+    for(int digit = 0 ; digit < VISIBLE_DIGIT_NUM ; digit++){
+        
+        if(nowFib[digit] != 0 || preFib[digit] != 0){
+            sumFibonacci = nowFib[digit] + preFib[digit] + upNum;
+            preFib[digit] = nowFib[digit];
+            upNum = 0;
             if(sumFibonacci > 9){
                 upNum = sumFibonacci / 10;
                 sumFibonacci = sumFibonacci - upNum * 10;
             }
-            result[digit] = sumFibonacci;
+            nowFib[digit] = sumFibonacci;
+        }else if(upNum != 0){
+            nowFib[digit] = nowFib[digit] + upNum;
+            upNum = 0;
         }
     }
 }
 
-void makeFibonacci()
+void makeFibonacci(int maxDigitNum)
 {
-    
+    while (nowFib[maxDigitNum - 1] == 0)
+    {
+        addFibonacci();
+        termNum++;
+    }
 }
 
 void printFibonacci()
 {
-    for(int digit = MAX_DIGITNUM ; digit > -1 ; digit--){
-        printf("%d", result[digit]);
+    printf("fibonacci[%d] = ", termNum);
+    for(int digit = VISIBLE_DIGIT_NUM ; digit > -1 ; digit--){
+        printf("%d", nowFib[digit]);
     }
 }
 
 int main(void)
 {
-    f1[0] = 5;
-    f1[1] = 9;
-    f2[0] = 7;
-    f2[1] = 1;
-
-    //addFibonacci();
-    //printFibonacci();
+    int count = 0;
+    preFib[0] = 1;
+    nowFib[0] = 1;
+    
+    makeFibonacci(MAX_DIGIT);
+    
+    printFibonacci();
     
     return 0;
 }
