@@ -2,77 +2,48 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define A_MAX  101
+#define A_MAX  5
 #define A_MIN  2
 
-#define B_MAX  101
+#define B_MAX  5
 #define B_MIN  2
 
-int primeNum[100];
-int pMax = 0;
-
-int prime_disc(int i)
+//指数を単純化する関数
+int canSimplification(double a, double b)
 {
-  int j = 2;
+    double dResult;
+    int count = 2;
+    double exp;
+    int iResult;
 
-  if(j <= i) while(i % j != 0) j++;
-  if(i == j) return i;
-
-  return -1;
-}
-
-int makePrimeNum()
-{
-    int prime;
-    int count = 0;
-
-    for(int i = 2 ; i < A_MAX ; i++){
-        prime = prime_disc(i);
-        if(prime != -1){
-            primeNum[count] = prime;
-            count++;
-        }
+    while(dResult > 2){
+        exp = 1.0 / count;
+        dResult = pow(a, exp);
+        iResult = dResult;
+        count++;
+        if(iResult == dResult) return iResult + b;
     }
-    pMax = count - 1;
-}
-
-int* canSimplification(int a, int b)
-{
-    int count = 0;
-    int endWhile = 0;
-    int quotient;
-    int exp = 0;
-    int* re = NULL;
-
-    re = (int*)malloc(sizeof(int) * 2);
-
-    makePrimeNum();
-
-    while (endWhile == 0){
-        if(a % primeNum[count] == 0){
-            if(quotient != a / primeNum[count]) endWhile = 1;
-            exp++;
-        }else{
-            count++;
-            if(count > pMax ) endWhile = 1;
-        }
-    }
-        
-    re[0] = a;
-    re[1] = b;
-
-    return re;
+    return 0;
 }
 
 int main(void)
 {
-    int a = 7;
-    int b = 12;
-    int* re = NULL;
+    double a = 8.0;
+    double b = 2;
 
-    re = canSimplification(a, b);
-
-    free(re);
+    printf("a = %lf\n", a);
+    printf("b = %lf\n", b);
+    printf("result = %d", canSimplification(a, b));
+    
+    /*for(int b = B_MIN ; b < B_MAX + 1 ; b++){
+        for(int a = A_MIN ; a < A_MAX + 1 ; a++){
+            re = canSimplification(a, b);
+           
+            if(re[0] != -1){
+                if(re[0] > A_MIN && re[0] < A_MAX + 1 && re[1] > B_MIN && re[1] < B_MAX + 1) countNum++;
+            }
+        }
+    }*/
 
     return 0;
 }
