@@ -30,9 +30,7 @@ double *canSimplification(double a, double b)
         if(iResult == dResult){
             re[0] = iResult;
             re[1] = count * b;
-            re2 = canSimplification(re[0], re[1]);
-
-            if(re2[0] == -1) return re;
+            return re;
         }
         count++;
     }
