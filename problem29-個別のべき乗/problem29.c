@@ -15,47 +15,42 @@ double *canSimplification(double a, double b)
     re = (double*)malloc(sizeof(double) * 2);
 
     double* re2 = NULL;
-    double dResult;
+    double dResult = 100;
     int count = 2;
     double exp;
     int iResult;
-
-    re[0] = -1;
-    re[1] = -1;
 
     while(dResult > 2){
         exp = 1.0 / count;
         dResult = pow(a, exp);
         iResult = dResult;
-        if(iResult == dResult){
+        if(iResult == dResult && iResult < A_MAX + 1 && count * b < B_MAX + 1){
             re[0] = iResult;
             re[1] = count * b;
-            return re;
+            re2 = canSimplification(re[0], re[1]);
+            return re2;
         }
         count++;
     }
+    re[0] = a;
+    re[1] = b;
     return re;
 }
 
 int main(void)
 {
-    double a = 16.0;
-    double b = 2;
     double* re = NULL;
-
-    printf("(%lf, %lf)\n", a, b);
-    re = canSimplification(a, b);
-    printf("(%lf, %lf)\n", re[0], re[1]);
-    
-    /*for(int b = B_MIN ; b < B_MAX + 1 ; b++){
-        for(int a = A_MIN ; a < A_MAX + 1 ; a++){
+    int countNum = 0;
+   
+    for(double  b = B_MIN ; b < B_MAX + 1 ; b++){
+        for(double  a = A_MIN ; a < A_MAX + 1 ; a++){
             re = canSimplification(a, b);
-           
-            if(re[0] != -1){
-                if(re[0] > A_MIN && re[0] < A_MAX + 1 && re[1] > B_MIN && re[1] < B_MAX + 1) countNum++;
-            }
+            printf("(%lf, %lf) -> (%lf, %lf)\n", a, b, re[0], re[1]);
+            if(re[0] == a) countNum++;
         }
-    }*/
+    }
+   
+    printf("%d\n", countNum);
 
     free(re);
 
