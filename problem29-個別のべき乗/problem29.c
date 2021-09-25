@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define A_MAX  5
+#define A_MAX  100
 #define A_MIN  2
 
-#define B_MAX  5
+#define B_MAX  100
 #define B_MIN  2
 
 //指数を単純化する関数
@@ -41,17 +41,31 @@ int main(void)
 {
     double* re = NULL;
     int countNum = 0;
+    double result = 0.0;
+    int aInt, bInt;
    
-    for(double  b = B_MIN ; b < B_MAX + 1 ; b++){
-        for(double  a = A_MIN ; a < A_MAX + 1 ; a++){
+    for(double  a = A_MIN ; a < A_MAX + 1 ; a++){
+        for(double  b = B_MIN ; b < B_MAX + 1 ; b++){
+            aInt = a;
+            bInt = b;
+            printf("(%d, %d) = ", aInt, bInt);
             re = canSimplification(a, b);
-            printf("(%lf, %lf) -> (%lf, %lf)\n", a, b, re[0], re[1]);
-            if(re[0] == a) countNum++;
+            aInt = re[0];
+            bInt = re[1];
+            printf("(%d, %d)", aInt, bInt);
+            if(re[0] == a && re[1] == b){
+                printf("+");
+                countNum++;
+            }
+            printf("\n");
         }
+        printf("%d\n", countNum);
+        result = countNum + result;
+        countNum = 0;
     }
    
-    printf("%d\n", countNum);
-
+    printf("%lf\n", result);
+   
     free(re);
 
     return 0;
