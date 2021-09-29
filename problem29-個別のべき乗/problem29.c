@@ -24,7 +24,7 @@ double *canSimplification(double a, double b)
         exp = 1.0 / count;
         dResult = pow(a, exp);
         iResult = dResult;
-        if(iResult == dResult && iResult < A_MAX + 1 && count * b < B_MAX + 1){
+        if(iResult == dResult){
             re[0] = iResult;
             re[1] = count * b;
             re2 = canSimplification(re[0], re[1]);
@@ -35,6 +35,31 @@ double *canSimplification(double a, double b)
     re[0] = a;
     re[1] = b;
     return re;
+}
+
+int uLJudgment(int a, int b, double originalA, double originalB)
+{
+    double aDouble = a;
+    double bDouble = b;
+
+    for(int i = 2 ; i <= sqrt(bDouble) ; i++){
+        if(b % i == 0 && (b / i) < B_MAX + 1){
+            //printf("pow(aDouble, i) = %lf\n", pow(aDouble, i));
+            //printf("(bDouble / i) = %lf\n", (bDouble / i));
+            //printf("originalA = %lf\n", originalA);
+            //printf("originalB = %lf\n", originalB);
+
+            if(pow(aDouble, i) < A_MAX + 1){
+                if(abs(pow(aDouble, i) - originalA) < originalA && bDouble / i == originalB){
+                    return 1;
+                }else{
+                    return 0;
+                }
+            }
+        }
+    }
+
+    return 0;
 }
 
 int main(void)
@@ -56,6 +81,11 @@ int main(void)
             if(re[0] == a && re[1] == b){
                 printf("+");
                 countNum++;
+            }else if(re[1] > B_MAX){
+                if(uLJudgment(aInt, bInt, a, b) == 1){
+                    printf("+");
+                    countNum++;
+                }
             }
             printf("\n");
         }
@@ -67,6 +97,12 @@ int main(void)
     printf("%lf\n", result);
    
     free(re);
+
+    /*if(uLJudgment(2, 12, 4, 6) == 1){
+        printf("+\n");
+    }else{
+        printf("追加されません\n");
+    }*/
 
     return 0;
 }
