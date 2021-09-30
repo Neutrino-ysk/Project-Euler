@@ -37,6 +37,7 @@ double *canSimplification(double a, double b)
     return re;
 }
 
+//上限越えした数を変形し範囲内に収まるか判定する関数
 int uLJudgment(int a, int b, double originalA, double originalB)
 {
     double aDouble = a;
@@ -44,11 +45,6 @@ int uLJudgment(int a, int b, double originalA, double originalB)
 
     for(int i = 2 ; i <= sqrt(bDouble) ; i++){
         if(b % i == 0 && (b / i) < B_MAX + 1){
-            //printf("pow(aDouble, i) = %lf\n", pow(aDouble, i));
-            //printf("(bDouble / i) = %lf\n", (bDouble / i));
-            //printf("originalA = %lf\n", originalA);
-            //printf("originalB = %lf\n", originalB);
-
             if(pow(aDouble, i) < A_MAX + 1){
                 if(abs(pow(aDouble, i) - originalA) < originalA && bDouble / i == originalB){
                     return 1;
@@ -58,7 +54,6 @@ int uLJudgment(int a, int b, double originalA, double originalB)
             }
         }
     }
-
     return 0;
 }
 
@@ -95,14 +90,7 @@ int main(void)
     }
    
     printf("%lf\n", result);
-   
     free(re);
-
-    /*if(uLJudgment(2, 12, 4, 6) == 1){
-        printf("+\n");
-    }else{
-        printf("追加されません\n");
-    }*/
 
     return 0;
 }
