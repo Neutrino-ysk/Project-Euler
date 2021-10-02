@@ -19,9 +19,8 @@ int main(void)
         move_up = digit[i] / 10;
         digit[i] = digit[i] - move_up * 10;
         if(i == max_gigit - 1){
-        max_gigit++;
+          max_gigit++;
         }
-
       }else{
         move_up = 0;
       }
