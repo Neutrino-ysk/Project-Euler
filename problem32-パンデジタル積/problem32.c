@@ -1,10 +1,13 @@
 #include <stdio.h>
-#define NOD 9
-#define DIGIT_MAX 999999999
-//#define SUM_NUM 45
-//#define MUL_NUM 362880
+#define NOD 5
+#define DIGIT_MAX 99999
+#define SUM_DIGIT 34
 
 int digit[10];
+int oneDigit[1];
+int twoDigit[2];
+int threeDigit[3];
+int fourDigit[4];
 /*int digitSum = 0;
 int digitMul = 1;
 int isZero = 0;*/
@@ -85,9 +88,9 @@ int main(void)
     initDigit();
 
     while(convertDigitNum() < DIGIT_MAX){
-        if(sumDigit() == 45){
+        if(sumDigit() == SUM_DIGIT){
             //printDigit();
-            if(checkIsPandigital() == 1); //printDigit();
+            if(checkIsPandigital() == 1) printDigit();
         }
         //printf("checkIsPandigital = %d\n", checkIsPandigital());
         nextDigit();
