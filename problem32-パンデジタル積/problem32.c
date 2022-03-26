@@ -15,14 +15,11 @@ int getDigitValue(int num, int digit)
     int moveDecimalPointNum = 1;
 
     if(num < 1 || digit < 1) return -1;
-
     for(int i = 0 ; i < digit - 1 ; i++){
         moveDecimalPointNum = moveDecimalPointNum * 10;
     }
-
     num1 = num / moveDecimalPointNum;
     num2 = (num / (moveDecimalPointNum * 10)) * 10;
-
     if(num1 == 0 && num2 == 0) return -1;
 
     return num1 - num2;
@@ -37,7 +34,6 @@ int swapLeft(int num, int swapDigit)
     for(int i = 0 ; i < swapDigit ; i++){
         moveDecimalPointNum = moveDecimalPointNum * 10;
     }
-
     radix = getDigitValue(num, swapDigit) - getDigitValue(num, swapDigit + 1);
     result = num + radix * moveDecimalPointNum - radix * (moveDecimalPointNum / 10);
 
@@ -63,22 +59,18 @@ void makePermutation(int seq, int maxDigitNum)
     int replaceNum = getDigitNum(seq);
 
     if(replaceNum == maxDigitNum) return;
-
     seq = seq * 10 + (replaceNum + 1);
-    makePermutation(seq, maxDigitNum);
-    if(replaceNum + 1 == maxDigitNum) printf("return = %d\n", seq);
-
-    for(int i = 0 ; i < replaceNum ; i++){
-        seq = swapLeft(seq, i + 1);
+    for(int i = 0 ; i < replaceNum + 1 ; i++){
         makePermutation(seq, maxDigitNum);
         if(replaceNum + 1 == maxDigitNum) printf("return = %d\n", seq);
+        seq = swapLeft(seq, i + 1);
     }
 }
 
 //main
 int main(void)
 {
-    makePermutation(1, 9);
+    makePermutation(1, 5);
 
     return 0;
 }
