@@ -1,7 +1,4 @@
 #include <stdio.h>
-#define MAXNUM 3
-
-int pNum[MAXNUM][6][MAXNUM];
 
 int fact(int fNum){
     if(fNum != 1){
@@ -11,38 +8,67 @@ int fact(int fNum){
     }
 }
 
-//順列生成関数
-void makePermutation(int hNum)
+//指定した桁の値を取得する関数
+int getDigitValue(int num, int digit)
 {
-    int hNumNext;
-    int sNum = 0;
+    int num1, num2;
+    int moveDecimalPointNum = 1;
 
-    if(hNum < MAXNUM){
-        hNumNext = hNum + 1;
-        makePermutation(hNumNext);
+    if(num < 1 || digit < 1) return -1;
+
+    for(int i = 0 ; i < digit - 1 ; i++){
+        moveDecimalPointNum = moveDecimalPointNum * 10;
     }
 
-    while(sNum + 1 <= fact(hNum + 1)){
-        int dNum = 0;
-        
-        while(dNum < hNum + 1){
-            pNum[hNum][sNum][dNum] = dNum + 1;
-            /*printf("%d ", hNum);
-            printf("%d ", sNum);
-            printf("%d, ", dNum);*/
-            printf("%d", pNum[hNum][sNum][dNum]);
-            dNum++;
-        }
-        sNum++;
-        printf(" ");
-    }
-    printf("\n");
+    num1 = num / moveDecimalPointNum;
+    num2 = (num / (moveDecimalPointNum * 10)) * 10;
+
+    if(num1 == 0 && num2 == 0) return -1;
+
+    return num1 - num2;
 }
+
+//指定した桁とその左隣の桁数を入れ替える関数
+int swapLeft(int num, int swapDigit)
+{
+    int radix, result;
+    int moveDecimalPointNum = 1;
+
+    for(int i = 0 ; i < swapDigit ; i++){
+        moveDecimalPointNum = moveDecimalPointNum * 10;
+    }
+
+    radix = getDigitValue(num, swapDigit) - getDigitValue(num, swapDigit + 1);
+    result = num + radix * moveDecimalPointNum - radix * (moveDecimalPointNum / 10);
+
+    return result;
+}
+
+//桁数取得関数
+int getDigitNum(int num)
+{
+    int result = 0;
+    int moveDecimalPointNum = 1;
+
+    while(num / moveDecimalPointNum >= 1){
+        result++;
+        moveDecimalPointNum = moveDecimalPointNum * 10;
+    }
+    return result;
+}
+
+//順列生成関数
+/*void makePermutation(int seq)
+{
+    
+}*/
 
 //main
 int main(void)
 {
-    makePermutation(0);
+    //makePermutation(0);
+
+    printf("result = %d\n", getDigitNum(357));
 
     return 0;
 }
