@@ -57,24 +57,28 @@ int getDigitNum(int num)
     return result;
 }
 
-//順列生成関数
-void makePermutation(int seq)
+//順列生成関数 Pn =（数列, n）
+void makePermutation(int seq, int maxDigitNum)
 {
     int replaceNum = getDigitNum(seq);
 
+    if(replaceNum == maxDigitNum) return;
+
     seq = seq * 10 + (replaceNum + 1);
-    printf("result = %d\n", seq);
+    makePermutation(seq, maxDigitNum);
+    if(replaceNum + 1 == maxDigitNum) printf("return = %d\n", seq);
 
     for(int i = 0 ; i < replaceNum ; i++){
         seq = swapLeft(seq, i + 1);
-        printf("result = %d\n", seq);
+        makePermutation(seq, maxDigitNum);
+        if(replaceNum + 1 == maxDigitNum) printf("return = %d\n", seq);
     }
 }
 
 //main
 int main(void)
 {
-    makePermutation(1);
+    makePermutation(1, 9);
 
     return 0;
 }
