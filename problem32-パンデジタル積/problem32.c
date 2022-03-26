@@ -58,17 +58,23 @@ int getDigitNum(int num)
 }
 
 //順列生成関数
-/*void makePermutation(int seq)
+void makePermutation(int seq)
 {
-    
-}*/
+    int replaceNum = getDigitNum(seq);
+
+    seq = seq * 10 + (replaceNum + 1);
+    printf("result = %d\n", seq);
+
+    for(int i = 0 ; i < replaceNum ; i++){
+        seq = swapLeft(seq, i + 1);
+        printf("result = %d\n", seq);
+    }
+}
 
 //main
 int main(void)
 {
-    //makePermutation(0);
-
-    printf("result = %d\n", getDigitNum(357));
+    makePermutation(1);
 
     return 0;
 }
