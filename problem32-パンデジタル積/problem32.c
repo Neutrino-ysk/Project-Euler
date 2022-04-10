@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int fact(int fNum){
     if(fNum != 1){
@@ -54,23 +55,49 @@ int getDigitNum(int num)
 }
 
 //順列生成関数 Pn =（数列, n）
-void makePermutation(int seq, int maxDigitNum)
+void makePermutation(int seq, int maxDigitNum, FILE *fp)
 {
     int replaceNum = getDigitNum(seq);
 
     if(replaceNum == maxDigitNum) return;
     seq = seq * 10 + (replaceNum + 1);
     for(int i = 0 ; i < replaceNum + 1 ; i++){
-        makePermutation(seq, maxDigitNum);
-        if(replaceNum + 1 == maxDigitNum) printf("return = %d\n", seq);
+        makePermutation(seq, maxDigitNum, fp);
+        if(replaceNum + 1 == maxDigitNum) fprintf(fp, "%d\n", seq);
         seq = swapLeft(seq, i + 1);
     }
+}
+
+//ファイルオープン関数
+FILE *openFile(char *openFileName, char *mode)
+{
+    FILE *fp;
+    fp = fopen(openFileName, mode);
+
+    if(fp == NULL){
+        printf("-----------Output failure-----------");
+        exit(1);
+    }
+    return fp;
 }
 
 //main
 int main(void)
 {
-    makePermutation(1, 5);
+    FILE *permFp;
+    char openFileName[] = "permutations.txt";
+    int permNum;
 
+    permFp = openFile(openFileName, "w");
+    makePermutation(1, 5, permFp);
+    fclose(permFp);
+
+    permFp = openFile(openFileName, "r");
+    while(fscanf(permFp, "%d", &permNum) != EOF) {
+		//permNumを分解して積の式に変換し積が一致するか判定
+	}
+    fclose(permFp);
+
+    
     return 0;
 }
